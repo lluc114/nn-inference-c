@@ -17,7 +17,7 @@ class NetBuilder:
     """
     def __init__(self, model_path, 
             model_format='saved_model', 
-            template_file='mlp_two_hidden_layer_pruned.cpp',
+            template_file='mlp_hidden_layer_pruned.cpp',
             out_directory='out',
             compiler='gcc'):
         """Initialize basic settings
@@ -97,7 +97,7 @@ class PrunedMLPBuilder(NetBuilder):
             model_format (str, optional): Format of the model stored in 'model_path'. Defaults to 'saved_model'. Defaults to 'saved_model'
             out_directory (str, optional): Output directory
         """
-        super().__init__(model_path, model_format, template_file='mlp_two_hidden_layer_pruned.cpp', out_directory=out_directory, compiler=compiler)
+        super().__init__(model_path, model_format, template_file='mlp_hidden_layer_pruned.cpp', out_directory=out_directory, compiler=compiler)
 
     def _extract_model_parameters(self):
         #parameters = [param.T for param in self.model.get_weights()]
@@ -273,6 +273,7 @@ class PrunedMLPBuilder(NetBuilder):
                 neuron_inputs = _neuron_inputs
                 wi_pruned = _wi_pruned
                 w_pruned = _w.reshape(-1)
+                firstLayer = False
             else:
                 neuron_inputs = np.concatenate([neuron_inputs, _neuron_inputs])
                 wi_pruned = np.concatenate([wi_pruned, _wi_pruned.reshape(-1)])
